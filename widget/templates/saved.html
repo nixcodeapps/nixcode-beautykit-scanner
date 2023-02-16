@@ -1,0 +1,131 @@
+<div class="slide-right main-thread-section" ng-controller="WidgetSavedCtrl as WidgetSaved" ng-cloak
+	style="height: 100%; overflow-y: auto !important">
+
+	<p style="text-align: center;" ng-if="display_kits"><b>Saved Items</b></p>
+	<p style="text-align: center;" ng-if="!display_kits"><b>Saved Items - {{selected_kit.tag | capitalize}}</b></p>
+	<div ng-repeat="product in products track by $index" ng-if="!product_detail">
+		<div class="social-item">
+			<div class="head">
+				<div class="social-profile-photo">
+					<div class="media-holder pull-left">
+						<img ng-if="product.images[0]" load-image="1x1"
+							data-final-src="{{product.images[0]}}" crop-width="40" crop-height="40"
+							crop-type="crop">
+						<img ng-if="!product.images[0]" load-image="1x1"
+							data-final-src="../../../styles/media/avatar-placeholder.png"
+							data-img-type="local" crop-width="40" crop-height="40"
+							crop-type="default">
+					</div>
+					<div class="social-copy">
+						<p class="text-primary ellipsis">
+							<a ng-click="view_product(product, $index)">
+								{{product.title}}
+							</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-6" ng-repeat="kit in kits track by $index |  orderBy:'$index':true" ng-if="kits_loaded && display_kits && !product_detail">
+				<a ng-click="open_kit(kit, $index)">{{kit.tag | capitalize}}</a>
+				<div class="container" ng-click="open_kit(kit, $index)">
+					<div class="row">
+						<div class="col-6 border rounded-start" ng-if="kit.data[0].images[0]">
+							<img load-image="1x1"
+							data-final-src="{{kit.data[0].images[0]}}" crop-width="40" crop-height="40"
+							crop-type="crop">
+						</div>
+						<div class="col-6 border rounded-end" ng-if="kit.data[1].images[0]">
+							<img load-image="1x1"
+							data-final-src="{{kit.data[1].images[0]}}" crop-width="40" crop-height="40"
+							crop-type="crop">
+						</div>
+					</div>
+					<div class="row" style="margin-top: 15px;">
+						<div class="col-6 border rounded-start" ng-if="kit.data[2].images[0]" >
+							<img load-image="1x1"
+							data-final-src="{{kit.data[2].images[0]}}" crop-width="40" crop-height="40"
+							crop-type="crop">
+						</div>
+						<div class="col-6 border rounded-end" ng-if="kit.data[3].images[0]">
+							<img load-image="1x1"
+							data-final-src="{{kit.data[3].images[0]}}" crop-width="40" crop-height="40"
+							crop-type="crop">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="footer" ng-if="searching">
+		<button ng-show="!loading" class="btn-primary"
+			style="margin-left: auto !important; margin-right: auto !important;"
+			ng-click="showMore()">Show more</button>
+	</div>
+	<ul class="list-group" ng-if="product_detail">
+		<li class="list-group-item">
+			<h2>{{current_product.title}}</h2>
+			<carousel>
+				<slide ng-repeat="image in current_product.images">
+					<img ng-src="{{image}}" style="max-height: 200px; width: 100%;">
+				</slide>
+			</carousel>
+			<label for="formats"><b>Barcode Formats</b></label>
+			<h3 id="formats">{{current_product.barcode_formats}}</h3>
+			<div>
+				<label><b>Online Stores</b></label>
+				<div ng-repeat="store in current_product.stores">
+					<div class="card" style="background-color: rgba(255, 255, 255, .1);
+					box-shadow: 0 0.125rem 0.5rem rgb(50 50 50 / 20%);
+					margin-bottom: 0.5rem;">
+						<div class="card-body">
+							{{store.name}}
+							{{store.currency_symbol}}{{store.price}}
+							<a href="{{store.link}}" target="_blank"><i
+									class="glyphicon glyphicon-new-window"
+									style="padding-right: 5px; float: right;"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<label for="formats"><b>Description</b></label>
+			<h6 id="formats">{{current_product.description}}</h6>
+			<label for="formats"><b>Manufacturer</b></label>
+			<h6 id="formats">{{current_product.manufacturer}}</h6>
+			<div
+				style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px">
+				<button type="button" class="btn btn-danger"
+					ng-click="delete_saved(current_product)">Remove</button>
+			</div>
+		</li>
+		<a ng-show="!loading" style="margin-left: auto !important; margin-right: auto !important;"
+			ng-click="back_to_results()">Back to results</a>
+	</ul>
+	<div ng-if="!product_detail && display_kits"
+		style="display: flex; justify-content: left; align-items: left; margin-bottom: 10px">
+		<button ng-if="products.length > 0" type="button" class="btn btn-danger"
+			ng-click="delete_all()" style="position: fixed;
+		bottom: 10%;">Remove All</button>
+	</div>
+	<div ng-if="!product_detail && !display_kits"
+		style="display: flex; justify-content: left; align-items: left; margin-bottom: 10px">
+		<button type="button" class="btn btn-danger"
+			ng-click="delete_kit()" style="position: fixed;
+		bottom: 10%;">Remove Kit</button>
+	</div>
+	<div ng-if="!product_detail"
+		style="display: flex; justify-content: right; align-items: right; margin-bottom: 10px">
+		<button  type="button" class="btn btn-info"
+			ng-click="create_kit()" style="position: fixed;
+		bottom: 10%;">Create Kit</button>
+	</div>
+	<div ng-if="!product_detail && !display_kits"
+		style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px">
+		<button type="button" class="btn btn-primary"
+			ng-click="back_to_results()" style="position: fixed;
+		bottom: 10%;">Back</button>
+	</div>
+</div>

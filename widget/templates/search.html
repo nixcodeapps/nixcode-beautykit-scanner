@@ -1,0 +1,92 @@
+<div class="slide-right main-thread-section" ng-show="showThread"
+	ng-controller="WidgetSearchCtrl as WidgetSearch" ng-cloak
+	style="height: 100%; overflow-y: auto !important">
+
+	<div class="input-group mb-3">
+		<input type="text" class="form-control" placeholder="Search" aria-label="Search"
+			aria-describedby="basic-addon1" ng-click="action()"
+			style="width: 95%; margin: 5px; border-radius: 50px;" ng-model="params.text"
+			ng-keydown="$event.keyCode === 13 && search($event)">
+		<span ng-if="params.text" ng-click="clearText()"
+			class="glyphicon glyphicon-remove form-control-feedback"
+			style="cursor: pointer; pointer-events: all; padding-top: 5px; padding-right: 50px;"
+			uib-tooltip="clear">
+		</span>
+	</div>
+	<div class="head" ng-show="pinnedPost" ng-if="show_text" id="pinnedPost" style="height: 100%;">
+	</div>
+	<div ng-repeat="product in products track by $index" ng-if="!product_detail">
+		<div class="social-item">
+			<div class="head">
+				<div class="social-profile-photo">
+					<div class="media-holder pull-left">
+						<img ng-if="product.images[0]" load-image="1x1"
+							data-final-src="{{product.images[0]}}" crop-width="40" crop-height="40"
+							crop-type="crop">
+						<img ng-if="!product.images[0]" load-image="1x1"
+							data-final-src="../../../styles/media/avatar-placeholder.png"
+							data-img-type="local" crop-width="40" crop-height="40"
+							crop-type="default">
+					</div>
+					<div class="social-copy">
+						<p class="text-primary ellipsis">
+							<a ng-click="view_product(product, $index)">
+								{{product.title}}
+							</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="footer" ng-if="searching && !product_detail">
+		<button ng-show="!loading" class="btn-primary"
+			style="margin-left: auto !important; margin-right: auto !important;"
+			ng-click="showMore()">Show more</button>
+	</div>
+	<ul class="list-group" ng-if="product_detail">
+		<li class="list-group-item">
+			<div class="card-body">
+				<h3>{{current_product.title}}
+					<a href="" ng-click="save(current_product)"><i
+							class="glyphicon glyphicon-bookmark"
+							style="padding-right: 5px; float: right; color: rgb(194, 194, 57);"></i></a>
+				</h3>
+			</div>
+			<carousel>
+				<slide ng-repeat="image in current_product.images">
+					<img ng-src="{{image}}" style="max-height: 200px; width: 100%;">
+				</slide>
+			</carousel>
+			<label for="formats"><b>Barcode Formats</b></label>
+			<h3 id="formats">{{current_product.barcode_formats}}</h3>
+			<div>
+				<label><b>Online Stores</b></label>
+				<div ng-repeat="store in current_product.stores">
+					<div class="card" style="background-color: rgba(255, 255, 255, .1);
+					box-shadow: 0 0.125rem 0.5rem rgb(50 50 50 / 20%);
+					margin-bottom: 0.5rem;">
+						<div class="card-body">
+							{{store.name}}
+							{{store.currency_symbol}}{{store.price}}
+							<a href="{{store.link}}" target="_blank"><i
+									class="glyphicon glyphicon-new-window"
+									style="padding-right: 5px; float: right;"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<label for="formats"><b>Description</b></label>
+			<h6 id="formats">{{current_product.description}}</h6>
+			<label for="formats"><b>Manufacturer</b></label>
+			<h6 id="formats">{{current_product.manufacturer}}</h6>
+			<div
+				style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px">
+				<button type="button" class="btn btn-primary"
+					ng-click="save(current_product)">Save</button>
+			</div>
+		</li>
+		<a ng-show="!loading" style="margin-left: auto !important; margin-right: auto !important;"
+			ng-click="back_to_search()">Back to results</a>
+	</ul>
+</div>

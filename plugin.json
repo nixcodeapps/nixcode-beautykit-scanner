@@ -1,0 +1,32 @@
+{
+  "author": "Nixcode",
+  "pluginName": "Beautykit Scanner",
+  "pluginDescription": "Beautykit Scanner plugin",
+  "keywords": "communication,social,wall,messaging,message,group,conversation,chat",
+  "supportEmail": "support@buildfire.com",
+  "supportSite": "https://learn.appdocumentation.com/en/articles/5128512-how-to-use-the-community-wall-plugin",
+  "pluginIcon": "icon.png",
+  "control": {
+    "content": {
+      "enabled": true
+    },
+    "design": {
+      "enabled": false
+    },
+    "settings": {
+      "enabled": true
+    },
+    "customTabs": [
+      {
+        "title": "Languages",
+        "url": "languages/index.html"
+      }
+    ]
+  },
+  "widget": {
+  },
+  "features" : [{"name" : "BarCodeScanner"}],
+  "languages": [
+    "en"
+  ]
+}

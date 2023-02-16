@@ -1,0 +1,64 @@
+<div class="slide-right main-thread-section" ng-controller="WidgetHistoryCtrl as WidgetHistory"
+	ng-cloak style="height: 100%; overflow-y: auto !important">
+	<p style="text-align: center;"><b>History</b></p>
+	<div ng-repeat="history in histories track by $index |  orderBy:'$index':true" ng-if="!product_detail">
+		<div class="social-item">
+			<div class="social-profile-photo" style="display: grid !important">
+				<div class="social-copy">
+					<p class="text-primary ellipsis">
+						<i class="glyphicon glyphicon-repeat"
+							style="padding-right: 5px; color: gray;"></i>
+						<!-- <a ng-click="view_product(history)">
+							{{history.title}}
+						</a> -->
+						<a>
+							{{history}}
+						</a>
+					</p>
+					<div class="pull-right" style="margin-top: -20px">
+						<a ng-click="delete_history($index)">
+							<i class="glyphicon glyphicon-remove" style="color: red;"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<ul class="list-group" ng-if="product_detail">
+		<li class="list-group-item">
+			<h2>{{current_product.title}}</h2>
+			<carousel>
+				<slide ng-repeat="image in current_product.images">
+					<img ng-src="{{image}}" style="max-height: 200px; width: 100%;">
+				</slide>
+			</carousel>
+			<label for="formats"><b>Barcode Formats</b></label>
+			<h3 id="formats">{{current_product.barcode_formats}}</h3>
+			<div>
+				<label><b>Online Stores</b></label>
+				<div ng-repeat="store in current_product.stores">
+					<div class="card" style="background-color: rgba(255, 255, 255, .1);
+					box-shadow: 0 0.125rem 0.5rem rgb(50 50 50 / 20%);
+					margin-bottom: 0.5rem;">
+						<div class="card-body">
+							{{store.name}}
+							{{store.currency_symbol}}{{store.price}}
+							<a href="{{store.link}}" target="_blank"><i
+									class="glyphicon glyphicon-new-window"
+									style="padding-right: 5px; float: right;"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<label for="formats"><b>Description</b></label>
+			<h6 id="formats">{{current_product.description}}</h6>
+			<label for="formats"><b>Manufacturer</b></label>
+			<h6 id="formats">{{current_product.manufacturer}}</h6>
+		</li>
+	</ul>
+	<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 10px">
+		<button ng-if="histories.length > 0" type="button" class="btn btn-danger"
+			ng-click="delete_all()" style="position: fixed;
+		bottom: 10%;">Remove All</button>
+	</div>
+</div>
