@@ -31,6 +31,23 @@
               });
 
             ContentHome.saveBarcodeScannerConfig = function () {
+                // buildfire.pluginInstance.create({
+                //     pluginTypeName: "Calendly",
+                //     newPluginTitle: "Masresha Calendly"
+                // }, function (error, instance){
+                //     if (error) { 
+                //         console.error(error); 
+                //         buildfire.dialog.alert({
+                //             message: `Error Mas ${error}`,
+                //         });
+                //     } else {
+                //         console.log(instance.title);
+                //         buildfire.dialog.alert({
+                //             message: `Success Mas ${instance.title}`,
+                //         });
+                //     }
+                // });
+
                 ContentHome.data.content.api_key = ContentHome.api_key;
                 console.log(ContentHome.data.content)
                 buildfire.datastore.save(
